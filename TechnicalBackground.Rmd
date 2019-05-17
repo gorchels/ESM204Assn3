@@ -29,15 +29,20 @@ cost of the program to that respondent. Show the model and interpret the regress
 coefficients.
 
 ```{r}
-survey_mod = lm(vote~risk_dec+bid+age+NEP, data = survey_2)
+survey_mod = lm(vote~risk_dec+bid+age+NEP+income, data = survey_2)
 
 summary(survey_mod)
+```
+```{r}
+
 ```
 
 
 2. Based on this regression, what can you say about the value of a single prevented whale death?
 (Hint: Think about how risk reduction for all whales translates into the number of whale deaths
 avoided)
+
+
 
 
 3. Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR
