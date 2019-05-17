@@ -15,7 +15,12 @@ library(tidyverse)
 ```
 
 ```{r}
-survey = read_csv("HW3Data.csv")
+survey = read_csv("HW3Data.csv") 
+
+#converting risk to decimal
+survey_2 <- survey %>% 
+  transform(risk_dec = risk/100)
+
 ```
 
 1. Create a linear probability model that predicts a respondent’s probability of voting ‘yes’ on the
@@ -24,7 +29,7 @@ cost of the program to that respondent. Show the model and interpret the regress
 coefficients.
 
 ```{r}
-survey_mod = lm(vote~risk+bid+age+NEP, data = survey)
+survey_mod = lm(vote~risk_dec+bid+age+NEP, data = survey_2)
 
 summary(survey_mod)
 ```
