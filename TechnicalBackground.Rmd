@@ -51,11 +51,14 @@ program offering 60% risk reduction.
 
 ```{r}
 #respondant1: risk = 0.6, bid =?, vote = 1, NEP = 27, very_rich, toforty
-bid = 1 - 0.119697664*(0.6) - 0.0744487 + 0.0201190 - 0.0158639*(27) 
+bid_value_1 = (1 - 0.119697664 - 0.0744487*(0.6) + 0.0201190 - 0.0467922- 0.0158639*(27))/(0.0010699)
+#respondant2:  bid=?, vote = 1, risk = 0.6, oversixty, poor, NEP = 58
+bid_value_2 = (1 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.0158639*(58))/(0.0010699)
+
 ```
 
 1 = risk_dec + bid + agetoforty + very_rich + NEP +intercept
-bid = 1-risk_dec-age-income-NEP-intercept
+bid_value = (1-intercept-risk_dec-age-income-NEP)/bid
 
 4. Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk
 reduction among Santa Barbara County households.
