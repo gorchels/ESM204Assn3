@@ -32,9 +32,10 @@ coefficients.
 survey_mod = lm(vote~risk_dec+bid+age+NEP+income, data = survey_2)
 
 summary(survey_mod)
+#over 60 and middle income is the baseline
 ```
 ```{r}
-
+lm(bid~risk_dec, data = survey_2)
 ```
 
 
@@ -48,7 +49,13 @@ avoided)
 3. Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR
 program offering 60% risk reduction.
 
+```{r}
+#respondant1: risk = 0.6, bid =?, vote = 1, NEP = 27, very_rich, toforty
+bid = 1 - 0.119697664*(0.6) - 0.0744487 + 0.0201190 - 0.0158639*(27) 
+```
 
+1 = risk_dec + bid + agetoforty + very_rich + NEP +intercept
+bid = 1-risk_dec-age-income-NEP-intercept
 
 4. Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk
 reduction among Santa Barbara County households.
