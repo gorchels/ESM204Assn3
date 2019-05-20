@@ -34,16 +34,16 @@ survey_mod = lm(vote~risk_dec+bid+age+NEP+income, data = survey_2)
 summary(survey_mod)
 #over 60 and middle income is the baseline
 ```
-```{r}
-lm(bid~risk_dec, data = survey_2)
-```
-
 
 2. Based on this regression, what can you say about the value of a single prevented whale death?
 (Hint: Think about how risk reduction for all whales translates into the number of whale deaths
 avoided)
 
 
+```{r}
+whale_death = -((0.04*survey_mod$coefficients[2])/survey_mod$coefficients[3])
+whale_death
+```
 
 
 3. Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR
