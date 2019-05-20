@@ -55,6 +55,9 @@ bid_value_1 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0201190 - 0.0467922- 0.01
 #respondant2:  bid=?, vote = 1, risk = 0.6, oversixty, poor, NEP = 58
 bid_value_2 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.0158639*(58))/(0.0010699)
 
+bid = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[5]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*27)/survey_mod$coefficients[3]
+bid
+
 ```
 
 
