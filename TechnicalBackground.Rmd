@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(stargazer)
 ```
 
 ```{r}
@@ -43,6 +44,15 @@ survey_mod = lm(vote~risk_dec+bid+age+NEP+income, data = survey_2)
 
 summary(survey_mod)
 #over 60 and middle income is the baseline
+
+```
+
+
+```{r, results='asis'}
+survey_table = stargazer(survey_mod, notes.append = FALSE, type = "html", covariate.labels = c("Gender", "Age", "Constant"),
+          dep.var.caption  = "Anxiety Prediction Model",
+          dep.var.labels   = "Change in Anxiety Probability")
+survey_table
 ```
 
 2. Based on this regression, what can you say about the value of a single prevented whale death?

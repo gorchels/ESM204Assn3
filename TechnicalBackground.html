@@ -137,6 +137,11 @@ $(document).ready(function () {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(stargazer)</code></pre>
+<pre><code>## 
+## Please cite as:</code></pre>
+<pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+<pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
 <pre class="r"><code>survey = read_csv(&quot;HW3Data.csv&quot;) </code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -149,41 +154,851 @@ $(document).ready(function () {
 ## )</code></pre>
 <pre class="r"><code>#converting risk to decimal
 survey_2 &lt;- survey %&gt;% 
-  transform(risk_dec = risk/100)</code></pre>
+  transform(risk_dec = risk/100) %&gt;% 
+  mutate(age_conv = case_when(age == &quot;tothirty&quot;~30, 
+                              age == &quot;toforty&quot;~40, 
+                              age == &quot;tofifty&quot;~50, 
+                              age == &quot;tosixty&quot;~60, 
+                              age == &quot;oversixty&quot;~65)) %&gt;% 
+  mutate(income_conv = case_when(income == &quot;poor&quot;~1, 
+                              income == &quot;middle&quot;~2, 
+                              income == &quot;rich&quot;~3, 
+                              income == &quot;very_rich&quot;~4, 
+                              income == &quot;one_percent&quot;~5))</code></pre>
 <ol style="list-style-type: decimal">
 <li>Create a linear probability model that predicts a respondent’s probability of voting ‘yes’ on the ballot based on their age, income, NEP score, the risk reduction offered by the program, and the cost of the program to that respondent. Show the model and interpret the regression coefficients.</li>
 </ol>
-<pre class="r"><code>survey_mod = lm(vote~risk_dec+bid+age+NEP, data = survey_2)
+<pre class="r"><code>survey_mod = lm(vote~risk_dec+bid+age+NEP+income, data = survey_2)
 
 summary(survey_mod)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = vote ~ risk_dec + bid + age + NEP, data = survey_2)
+## lm(formula = vote ~ risk_dec + bid + age + NEP + income, data = survey_2)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -1.0731 -0.4306  0.1829  0.2954  0.7881 
+## -1.1078 -0.4242  0.1755  0.2968  0.7925 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.1361091  0.1041687   1.307    0.192    
-## risk_dec     0.0741615  0.0832059   0.891    0.373    
-## bid         -0.0010792  0.0006559  -1.645    0.101    
-## agetofifty   0.0071500  0.0627781   0.114    0.909    
-## agetoforty  -0.0221516  0.0615807  -0.360    0.719    
-## agetosixty  -0.0170768  0.0592264  -0.288    0.773    
-## agetothirty  0.0124158  0.0554309   0.224    0.823    
-## NEP          0.0158522  0.0020548   7.715 6.79e-14 ***
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        0.1196977  0.1198911   0.998    0.319    
+## risk_dec           0.0744487  0.0836288   0.890    0.374    
+## bid               -0.0010699  0.0006585  -1.625    0.105    
+## agetofifty         0.0099816  0.0633105   0.158    0.875    
+## agetoforty        -0.0201190  0.0623958  -0.322    0.747    
+## agetosixty        -0.0162261  0.0595666  -0.272    0.785    
+## agetothirty        0.0204401  0.0578269   0.353    0.724    
+## NEP                0.0158639  0.0020887   7.595 1.58e-13 ***
+## incomeone_percent  0.0088282  0.0598973   0.147    0.883    
+## incomepoor         0.0027386  0.0649833   0.042    0.966    
+## incomerich         0.0074891  0.0682176   0.110    0.913    
+## incomevery_rich    0.0467922  0.0674876   0.693    0.488    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.4276 on 492 degrees of freedom
-## Multiple R-squared:  0.1189, Adjusted R-squared:  0.1064 
-## F-statistic: 9.487 on 7 and 492 DF,  p-value: 4.549e-11</code></pre>
+## Residual standard error: 0.4291 on 488 degrees of freedom
+## Multiple R-squared:  0.1201, Adjusted R-squared:  0.1003 
+## F-statistic: 6.055 on 11 and 488 DF,  p-value: 2.549e-09</code></pre>
+<pre class="r"><code>#over 60 and middle income is the baseline</code></pre>
+<pre class="r"><code>survey_table = stargazer(survey_mod, notes.append = FALSE, type = &quot;html&quot;, covariate.labels = c(&quot;Gender&quot;, &quot;Age&quot;, &quot;Constant&quot;),
+          dep.var.caption  = &quot;Anxiety Prediction Model&quot;,
+          dep.var.labels   = &quot;Change in Anxiety Probability&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Anxiety Prediction Model
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Change in Anxiety Probability
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Gender
+</td>
+<td>
+0.074
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.084)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Age
+</td>
+<td>
+-0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.001)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.010
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.063)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+agetoforty
+</td>
+<td>
+-0.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.062)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+agetosixty
+</td>
+<td>
+-0.016
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.060)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+agetothirty
+</td>
+<td>
+0.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.058)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+NEP
+</td>
+<td>
+0.016<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+incomeone_percent
+</td>
+<td>
+0.009
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.060)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+incomepoor
+</td>
+<td>
+0.003
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.065)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+incomerich
+</td>
+<td>
+0.007
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.068)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+incomevery_rich
+</td>
+<td>
+0.047
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.067)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.120
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.120)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+500
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.120
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.100
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.429 (df = 488)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+6.055<sup>***</sup> (df = 11; 488)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<pre class="r"><code>survey_table</code></pre>
+[1] “”<br />
+[2] “
+<table style="\&quot;text-align:center\&quot;">
+<tr>
+<td colspan="\&quot;2\&quot;" style="\&quot;border-bottom:" 1px solid black\">
+</td>
+</tr>
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+Anxiety Prediction Model
+</td>
+</tr>
+&quot;<br />
+[3] “
+<tr>
+<td>
+</td>
+<td colspan="\&quot;1\&quot;" style="\&quot;border-bottom:" 1px solid black\">
+</td>
+</tr>
+&quot;<br />
+[4] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+Change in Anxiety Probability
+</td>
+</tr>
+&quot;<br />
+[5] “
+<tr>
+<td colspan="\&quot;2\&quot;" style="\&quot;border-bottom:" 1px solid black\">
+</td>
+</tr>
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Gender
+</td>
+<td>
+0.074
+</td>
+</tr>
+&quot;<br />
+[6] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.084)
+</td>
+</tr>
+&quot;<br />
+[7] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[8] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Age
+</td>
+<td>
+-0.001
+</td>
+</tr>
+&quot;<br />
+[9] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.001)
+</td>
+</tr>
+&quot;<br />
+[10] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[11] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Constant
+</td>
+<td>
+0.010
+</td>
+</tr>
+&quot;<br />
+[12] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.063)
+</td>
+</tr>
+&quot;<br />
+[13] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[14] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+agetoforty
+</td>
+<td>
+-0.020
+</td>
+</tr>
+&quot;<br />
+[15] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.062)
+</td>
+</tr>
+&quot;<br />
+[16] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[17] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+agetosixty
+</td>
+<td>
+-0.016
+</td>
+</tr>
+&quot;<br />
+[18] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.060)
+</td>
+</tr>
+&quot;<br />
+[19] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[20] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+agetothirty
+</td>
+<td>
+0.020
+</td>
+</tr>
+&quot;<br />
+[21] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.058)
+</td>
+</tr>
+&quot;<br />
+[22] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[23] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+NEP
+</td>
+<td>
+0.016<sup>***</sup>
+</td>
+</tr>
+&quot;<br />
+[24] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+&quot;<br />
+[25] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[26] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+incomeone_percent
+</td>
+<td>
+0.009
+</td>
+</tr>
+&quot;<br />
+[27] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.060)
+</td>
+</tr>
+&quot;<br />
+[28] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[29] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+incomepoor
+</td>
+<td>
+0.003
+</td>
+</tr>
+&quot;<br />
+[30] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.065)
+</td>
+</tr>
+&quot;<br />
+[31] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[32] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+incomerich
+</td>
+<td>
+0.007
+</td>
+</tr>
+&quot;<br />
+[33] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.068)
+</td>
+</tr>
+&quot;<br />
+[34] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[35] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+incomevery_rich
+</td>
+<td>
+0.047
+</td>
+</tr>
+&quot;<br />
+[36] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.067)
+</td>
+</tr>
+&quot;<br />
+[37] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[38] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Constant
+</td>
+<td>
+0.120
+</td>
+</tr>
+&quot;<br />
+[39] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+(0.120)
+</td>
+</tr>
+&quot;<br />
+[40] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+</td>
+<td>
+</td>
+</tr>
+&quot;<br />
+[41] “
+<tr>
+<td colspan="\&quot;2\&quot;" style="\&quot;border-bottom:" 1px solid black\">
+</td>
+</tr>
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Observations
+</td>
+<td>
+500
+</td>
+</tr>
+&quot;<br />
+[42] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+R<sup>2</sup>
+</td>
+<td>
+0.120
+</td>
+</tr>
+&quot;<br />
+[43] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.100
+</td>
+</tr>
+&quot;<br />
+[44] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+Residual Std. Error
+</td>
+<td>
+0.429 (df = 488)
+</td>
+</tr>
+&quot;<br />
+[45] “
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+F Statistic
+</td>
+<td>
+6.055<sup>***</sup> (df = 11; 488)
+</td>
+</tr>
+&quot;<br />
+[46] “
+<tr>
+<td colspan="\&quot;2\&quot;" style="\&quot;border-bottom:" 1px solid black\">
+</td>
+</tr>
+<tr>
+<td style="\&quot;text-align:left\&quot;">
+<em>Note:</em>
+</td>
+<td style="\&quot;text-align:right\&quot;">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+&quot; [47] “
+</table>
+<p>&quot;</p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Based on this regression, what can you say about the value of a single prevented whale death? (Hint: Think about how risk reduction for all whales translates into the number of whale deaths avoided)</p></li>
-<li><p>Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR program offering 60% risk reduction.</p></li>
-<li><p>Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk reduction among Santa Barbara County households.</p></li>
+<li>Based on this regression, what can you say about the value of a single prevented whale death? (Hint: Think about how risk reduction for all whales translates into the number of whale deaths avoided)</li>
+</ol>
+<pre class="r"><code>whale_death = -((0.04*survey_mod$coefficients[2])/survey_mod$coefficients[3])
+whale_death</code></pre>
+<pre><code>## risk_dec 
+##   2.7834</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR program offering 60% risk reduction.</li>
+</ol>
+<pre class="r"><code>#respondant1: risk = 0.6, bid =?, vote = 1, NEP = 27, very_rich, toforty
+bid_value_1 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0201190 - 0.0467922- 0.0158639*(27))/(0.0010699)
+
+#respondant2:  bid=?, vote = 1, risk = 0.6, oversixty, poor, NEP = 58
+bid_value_2 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.0158639*(58))/(0.0010699)
+
+#respondant3:  bid=?, vote = 1, risk = 0.6, tothirty, very_rich, NEP = 15
+bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]</code></pre>
+<p>1 = risk_dec + bid + agetoforty + very_rich + NEP +intercept bid_value = (1-intercept-risk_dec-age-income-NEP)/bid</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk reduction among Santa Barbara County households.</li>
+</ol>
+<pre class="r"><code>#We need to determine the mean for numerical columns and the median for the converted catergorical columns
+#median(survey_2$age_conv) median age is tofifty
+#median(survey_2$income_conv) median income is rich
+bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[4]-survey_mod$coefficients[11] - survey_mod$coefficients[8]*mean(survey_2$NEP))/survey_mod$coefficients[3]</code></pre>
+<ol start="5" style="list-style-type: decimal">
 <li><p>If there are 150,000 households in Santa Barbara County, estimate the total benefit of a VSR program to these households.</p></li>
 <li><p>Based only on these benefits, do the benefits of the VSR program outweigh the costs?</p></li>
 </ol>
