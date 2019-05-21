@@ -63,6 +63,16 @@ avoided)
 ```{r}
 whale_death = -((0.04*survey_mod$coefficients[2])/survey_mod$coefficients[3])
 whale_death
+
+#whale_death_2 = (-(0.64*survey_mod$coefficients[2])+(0.60*survey_mod$coefficients[2])/survey_mod$coefficients[3])
+#whale_death_2
+
+whale_death_60 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
+whale_death_60
+
+whale_death_64 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.64 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
+whale_death_64
+
 ```
 
 
@@ -70,14 +80,14 @@ whale_death
 program offering 60% risk reduction.
 
 ```{r}
-#respondant1: risk = 0.6, bid =?, vote = 1, NEP = 27, very_rich, toforty
+#respondant1: risk = 0.6, bid =?, vote = 0.7, NEP = 27, very_rich, toforty
 bid_value_1 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0201190 - 0.0467922- 0.0158639*(27))/(0.0010699)
 
-#respondant2:  bid=?, vote = 1, risk = 0.6, oversixty, poor, NEP = 58
+#respondant2:  bid=?, vote = 0.7, risk = 0.6, oversixty, poor, NEP = 58
 bid_value_2 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.0158639*(58))/(0.0010699)
 
-#respondant3:  bid=?, vote = 1, risk = 0.6, tothirty, very_rich, NEP = 15
-bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
+#respondant3:  bid=?, vote = 0.7, risk = 0.6, tothirty, very_rich, NEP = 15
+bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 +survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
 
 
 ```
@@ -90,10 +100,24 @@ bid_value = (1-intercept-risk_dec-age-income-NEP)/bid
 reduction among Santa Barbara County households.
 
 ```{r}
+age <- survey_2 %>% 
+ group_by(age) %>% 
+  tally()
+#tothirty is the mode
+
+income <- survey_2 %>% 
+  group_by(income) %>% 
+  tally()
+#one-percent is the mode
+
+mean(survey_2$NEP)
+#mean NEP 38.366
+
 #We need to determine the mean for numerical columns and the median for the converted catergorical columns
 #median(survey_2$age_conv) median age is tofifty
 #median(survey_2$income_conv) median income is rich
-bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[4]-survey_mod$coefficients[11] - survey_mod$coefficients[8]*mean(survey_2$NEP))/survey_mod$coefficients[3]
+bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[9] - survey_mod$coefficients[8]*mean(survey_2$NEP))/survey_mod$coefficients[3]
+bid_mean
 
 ```
 
@@ -102,8 +126,21 @@ bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -sur
 5. If there are 150,000 households in Santa Barbara County, estimate the total benefit of a VSR
 program to these households.
 
+```{r}
+all_sb <- bid_mean*150000
+all_sb
+
+```
+
+
 
 6. Based only on these benefits, do the benefits of the VSR program outweigh the costs?
+```{r}
+t_benifit <- all_sb-7000000
+t_benifit
+
+```
+
 
 
 When a container ship reduces its speed, it not only reduces the risk of colliding with a whale but also
@@ -116,6 +153,20 @@ reduction) will cost the shipper $1,000, but will result in 20 fewer tons of CO2
 decide to adopt the VSR for purely self-interested reasons? (Note: if ships voluntarily reduce
 speed, then the $7 million cost (noted above) of implementing the VSR would be avoided)
 
+```{r}
+Z <- 1000/20
+Z
+# $50 per ton CO2
+
+```
+
+
 8. Now suppose the carbon credit price is exactly Z*, so all ships voluntarily reduce speed to
 achieve the 60% risk reduction. Approximately how many whales would be saved by this? What
 would be the social value of allowing ships to enter the carbon trading market?
+
+```{r}
+
+
+```
+
