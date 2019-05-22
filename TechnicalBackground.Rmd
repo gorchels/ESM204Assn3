@@ -168,5 +168,7 @@ would be the social value of allowing ships to enter the carbon trading market?
 ```{r}
 #15 whales
 
+#social value same as 5
+
 ```
 
