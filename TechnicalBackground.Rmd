@@ -166,7 +166,7 @@ achieve the 60% risk reduction. Approximately how many whales would be saved by 
 would be the social value of allowing ships to enter the carbon trading market?
 
 ```{r}
-
+#15 whales
 
 ```
 
