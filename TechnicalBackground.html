@@ -129,12 +129,12 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.0       ✔ purrr   0.3.1  
 ## ✔ tibble  2.0.1       ✔ dplyr   0.8.0.1
 ## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
 ## ✔ readr   1.1.1       ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(stargazer)</code></pre>
@@ -200,9 +200,9 @@ summary(survey_mod)</code></pre>
 ## Multiple R-squared:  0.1201, Adjusted R-squared:  0.1003 
 ## F-statistic: 6.055 on 11 and 488 DF,  p-value: 2.549e-09</code></pre>
 <pre class="r"><code>#over 60 and middle income is the baseline</code></pre>
-<pre class="r"><code>survey_table = stargazer(survey_mod, notes.append = FALSE, type = &quot;html&quot;, covariate.labels = c(&quot;Gender&quot;, &quot;Age&quot;, &quot;Constant&quot;),
-          dep.var.caption  = &quot;Anxiety Prediction Model&quot;,
-          dep.var.labels   = &quot;Change in Anxiety Probability&quot;)</code></pre>
+<pre class="r"><code>survey_table = stargazer(survey_mod, notes.append = FALSE, type = &quot;html&quot;, covariate.labels = c(&quot;Risk&quot;, &quot;Bid&quot;, &quot;Age 41-50&quot;,&quot;Age 31-40&quot;, &quot;Age 51-60&quot;, &quot;Age Under 30&quot;, &quot;NEP&quot;, &quot;Income 1%&quot;, &quot;Income Poor&quot;, &quot;Income Rich&quot;, &quot;Income Very Rich&quot;),
+          dep.var.caption  = &quot;Vote Prediction Model&quot;,
+          dep.var.labels   = &quot;Change in Vote Probability&quot;)</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="2" style="border-bottom: 1px solid black">
@@ -212,7 +212,7 @@ summary(survey_mod)</code></pre>
 <td style="text-align:left">
 </td>
 <td>
-Anxiety Prediction Model
+Vote Prediction Model
 </td>
 </tr>
 <tr>
@@ -225,7 +225,7 @@ Anxiety Prediction Model
 <td style="text-align:left">
 </td>
 <td>
-Change in Anxiety Probability
+Change in Vote Probability
 </td>
 </tr>
 <tr>
@@ -234,7 +234,7 @@ Change in Anxiety Probability
 </tr>
 <tr>
 <td style="text-align:left">
-Gender
+Risk
 </td>
 <td>
 0.074
@@ -255,7 +255,7 @@ Gender
 </tr>
 <tr>
 <td style="text-align:left">
-Age
+Bid
 </td>
 <td>
 -0.001
@@ -276,7 +276,7 @@ Age
 </tr>
 <tr>
 <td style="text-align:left">
-Constant
+Age 41-50
 </td>
 <td>
 0.010
@@ -297,7 +297,7 @@ Constant
 </tr>
 <tr>
 <td style="text-align:left">
-agetoforty
+Age 31-40
 </td>
 <td>
 -0.020
@@ -318,7 +318,7 @@ agetoforty
 </tr>
 <tr>
 <td style="text-align:left">
-agetosixty
+Age 51-60
 </td>
 <td>
 -0.016
@@ -339,7 +339,7 @@ agetosixty
 </tr>
 <tr>
 <td style="text-align:left">
-agetothirty
+Age Under 30
 </td>
 <td>
 0.020
@@ -381,7 +381,7 @@ NEP
 </tr>
 <tr>
 <td style="text-align:left">
-incomeone_percent
+Income 1%
 </td>
 <td>
 0.009
@@ -402,7 +402,7 @@ incomeone_percent
 </tr>
 <tr>
 <td style="text-align:left">
-incomepoor
+Income Poor
 </td>
 <td>
 0.003
@@ -423,7 +423,7 @@ incomepoor
 </tr>
 <tr>
 <td style="text-align:left">
-incomerich
+Income Rich
 </td>
 <td>
 0.007
@@ -444,7 +444,7 @@ incomerich
 </tr>
 <tr>
 <td style="text-align:left">
-incomevery_rich
+Income Very Rich
 </td>
 <td>
 0.047
@@ -553,7 +553,7 @@ F Statistic
 <td style="\&quot;text-align:left\&quot;">
 </td>
 <td>
-Anxiety Prediction Model
+Vote Prediction Model
 </td>
 </tr>
 &quot;<br />
@@ -570,7 +570,7 @@ Anxiety Prediction Model
 <td style="\&quot;text-align:left\&quot;">
 </td>
 <td>
-Change in Anxiety Probability
+Change in Vote Probability
 </td>
 </tr>
 &quot;<br />
@@ -581,7 +581,7 @@ Change in Anxiety Probability
 </tr>
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-Gender
+Risk
 </td>
 <td>
 0.074
@@ -608,7 +608,7 @@ Gender
 [8] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-Age
+Bid
 </td>
 <td>
 -0.001
@@ -635,7 +635,7 @@ Age
 [11] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-Constant
+Age 41-50
 </td>
 <td>
 0.010
@@ -662,7 +662,7 @@ Constant
 [14] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-agetoforty
+Age 31-40
 </td>
 <td>
 -0.020
@@ -689,7 +689,7 @@ agetoforty
 [17] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-agetosixty
+Age 51-60
 </td>
 <td>
 -0.016
@@ -716,7 +716,7 @@ agetosixty
 [20] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-agetothirty
+Age Under 30
 </td>
 <td>
 0.020
@@ -770,7 +770,7 @@ NEP
 [26] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-incomeone_percent
+Income 1%
 </td>
 <td>
 0.009
@@ -797,7 +797,7 @@ incomeone_percent
 [29] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-incomepoor
+Income Poor
 </td>
 <td>
 0.003
@@ -824,7 +824,7 @@ incomepoor
 [32] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-incomerich
+Income Rich
 </td>
 <td>
 0.007
@@ -851,7 +851,7 @@ incomerich
 [35] “
 <tr>
 <td style="\&quot;text-align:left\&quot;">
-incomevery_rich
+Income Very Rich
 </td>
 <td>
 0.047
@@ -979,33 +979,77 @@ F Statistic
 whale_death</code></pre>
 <pre><code>## risk_dec 
 ##   2.7834</code></pre>
+<pre class="r"><code>#whale_death_2 = (-(0.64*survey_mod$coefficients[2])+(0.60*survey_mod$coefficients[2])/survey_mod$coefficients[3])
+#whale_death_2
+
+whale_death_60 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
+whale_death_60</code></pre>
+<pre><code>## (Intercept) 
+##   -215.3878</code></pre>
+<pre class="r"><code>whale_death_64 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.64 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
+whale_death_64</code></pre>
+<pre><code>## (Intercept) 
+##   -212.6044</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Pick three arbitrary respondents. For each of those respondents, estimate their WTP for a VSR program offering 60% risk reduction.</li>
 </ol>
-<pre class="r"><code>#respondant1: risk = 0.6, bid =?, vote = 1, NEP = 27, very_rich, toforty
+<pre class="r"><code>#respondant1: risk = 0.6, bid =?, vote = 0.7, NEP = 27, very_rich, toforty
 bid_value_1 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0201190 - 0.0467922- 0.0158639*(27))/(0.0010699)
 
-#respondant2:  bid=?, vote = 1, risk = 0.6, oversixty, poor, NEP = 58
+#respondant2:  bid=?, vote = 0.7, risk = 0.6, oversixty, poor, NEP = 58
 bid_value_2 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.0158639*(58))/(0.0010699)
 
-#respondant3:  bid=?, vote = 1, risk = 0.6, tothirty, very_rich, NEP = 15
-bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]</code></pre>
+#respondant3:  bid=?, vote = 0.7, risk = 0.6, tothirty, very_rich, NEP = 15
+bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 +survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]</code></pre>
 <p>1 = risk_dec + bid + agetoforty + very_rich + NEP +intercept bid_value = (1-intercept-risk_dec-age-income-NEP)/bid</p>
 <ol start="4" style="list-style-type: decimal">
 <li>Now repeat this process and estimate the mean WTP for a VSR program offering 60% risk reduction among Santa Barbara County households.</li>
 </ol>
-<pre class="r"><code>#We need to determine the mean for numerical columns and the median for the converted catergorical columns
+<pre class="r"><code>age &lt;- survey_2 %&gt;% 
+ group_by(age) %&gt;% 
+  tally()
+#tothirty is the mode
+
+income &lt;- survey_2 %&gt;% 
+  group_by(income) %&gt;% 
+  tally()
+#one-percent is the mode
+
+mean(survey_2$NEP)</code></pre>
+<pre><code>## [1] 38.366</code></pre>
+<pre class="r"><code>#mean NEP 38.366
+
+#We need to determine the mean for numerical columns and the median for the converted catergorical columns
 #median(survey_2$age_conv) median age is tofifty
 #median(survey_2$income_conv) median income is rich
-bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[4]-survey_mod$coefficients[11] - survey_mod$coefficients[8]*mean(survey_2$NEP))/survey_mod$coefficients[3]</code></pre>
+bid_mean = (0.7-survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 -survey_mod$coefficients[7]-survey_mod$coefficients[9] - survey_mod$coefficients[8]*mean(survey_2$NEP))/survey_mod$coefficients[3]
+bid_mean</code></pre>
+<pre><code>## (Intercept) 
+##    95.58812</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li><p>If there are 150,000 households in Santa Barbara County, estimate the total benefit of a VSR program to these households.</p></li>
-<li><p>Based only on these benefits, do the benefits of the VSR program outweigh the costs?</p></li>
+<li>If there are 150,000 households in Santa Barbara County, estimate the total benefit of a VSR program to these households.</li>
 </ol>
+<pre class="r"><code>all_sb &lt;- bid_mean*150000
+all_sb</code></pre>
+<pre><code>## (Intercept) 
+##    14338218</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Based only on these benefits, do the benefits of the VSR program outweigh the costs?</li>
+</ol>
+<pre class="r"><code>t_benifit &lt;- all_sb-7000000
+t_benifit</code></pre>
+<pre><code>## (Intercept) 
+##     7338218</code></pre>
 <p>When a container ship reduces its speed, it not only reduces the risk of colliding with a whale but also emits less carbon per distance traveled. For this reason, the WhaleStrikes Group Project recommended enrolling container ships in voluntary carbon trading markets to mitigate fatal whale strikes. Assume that for any ship transiting the Santa Barbara Channel, a speed reduction (that results in a 60% risk reduction) will cost the shipper $1,000, but will result in 20 fewer tons of CO2 emitted per transit.</p>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Suppose the price of a carbon credit is $Z per ton, at what price Z* will the shipping industry decide to adopt the VSR for purely self-interested reasons? (Note: if ships voluntarily reduce speed, then the $7 million cost (noted above) of implementing the VSR would be avoided)</p></li>
-<li><p>Now suppose the carbon credit price is exactly Z*, so all ships voluntarily reduce speed to achieve the 60% risk reduction. Approximately how many whales would be saved by this? What would be the social value of allowing ships to enter the carbon trading market?</p></li>
+<li>Suppose the price of a carbon credit is $Z per ton, at what price Z* will the shipping industry decide to adopt the VSR for purely self-interested reasons? (Note: if ships voluntarily reduce speed, then the $7 million cost (noted above) of implementing the VSR would be avoided)</li>
+</ol>
+<pre class="r"><code>Z &lt;- 1000/20
+Z</code></pre>
+<pre><code>## [1] 50</code></pre>
+<pre class="r"><code># $50 per ton CO2</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Now suppose the carbon credit price is exactly Z*, so all ships voluntarily reduce speed to achieve the 60% risk reduction. Approximately how many whales would be saved by this? What would be the social value of allowing ships to enter the carbon trading market?</li>
 </ol>
 
 

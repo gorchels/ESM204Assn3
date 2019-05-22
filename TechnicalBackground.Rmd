@@ -49,9 +49,9 @@ summary(survey_mod)
 
 
 ```{r, results='asis'}
-survey_table = stargazer(survey_mod, notes.append = FALSE, type = "html", covariate.labels = c("Intercept", "Age", "Constant"),
-          dep.var.caption  = "Anxiety Prediction Model",
-          dep.var.labels   = "Change in Anxiety Probability")
+survey_table = stargazer(survey_mod, notes.append = FALSE, type = "html", covariate.labels = c("Risk", "Bid", "Age 41-50","Age 31-40", "Age 51-60", "Age Under 30", "NEP", "Income 1%", "Income Poor", "Income Rich", "Income Very Rich"),
+          dep.var.caption  = "Vote Prediction Model",
+          dep.var.labels   = "Change in Vote Probability")
 survey_table
 ```
 
