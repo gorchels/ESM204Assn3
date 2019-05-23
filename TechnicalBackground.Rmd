@@ -89,6 +89,9 @@ bid_value_2 = (0.7 - 0.119697664 - 0.0744487*(0.6) + 0.0162261 - 0.0027386-0.015
 #respondant3:  bid=?, vote = 0.7, risk = 0.6, tothirty, very_rich, NEP = 15
 bid_value_3 = (0.7 - survey_mod$coefficients[1] - survey_mod$coefficients[2]*0.6 +survey_mod$coefficients[7]-survey_mod$coefficients[12] - survey_mod$coefficients[8]*15)/survey_mod$coefficients[3]
 
+bid_value_1
+bid_value_2
+bid_value_3
 
 ```
 
